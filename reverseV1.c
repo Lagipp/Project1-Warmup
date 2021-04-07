@@ -23,7 +23,10 @@ int main(int argc, char *argv[])
 	size_t len = 0;
 	ssize_t nread;
 	
-
+	
+	//FILE *file;
+	//char line[255];
+	
 	
 	printf("== DEBUG: reading from a file ==\n");
 	printf("\n");
@@ -39,15 +42,31 @@ int main(int argc, char *argv[])
 	}
 	
 	while ((nread = getline(&line, &len, file)) != -1) 			// taken straight from the getline() manual page
-	{       
+	{
+	
+	
+               //printf("Retrieved line of length %zu:\n", nread);
+               
+               
                fwrite(line, nread, 1, stdout);
 	}
-	
 	printf("\n");
 	printf("== DEBUG: after reading every line from file ==\n");	
 	
 	
+	
+	/*
+	while(fscanf(file, "%[^\n]", line) != EOF)				// https://www.programiz.com/c-programming/examples/read-file
+	{
+		printf("%s\n", line);
+	}
+	
+	printf("== DEBUG: after reading every line ==\n");
+	printf("\n");
+	*/
 
+	
+	
 	fclose(file);
 	
 	printf("Kiitos ohjelman käytöstä :-D\n");
