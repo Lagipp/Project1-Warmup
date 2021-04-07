@@ -13,7 +13,7 @@
 int main(int argc, char *argv[])
 {
 
-
+	printf("VITTU");
 
 	printf("Kiitos ohjelman käytöstä :-D\n");
 }
