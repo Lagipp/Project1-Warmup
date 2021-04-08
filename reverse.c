@@ -21,11 +21,15 @@ struct Node
 	struct Node *pointerNext;
 };
 typedef struct Node Node;
-*/
 
-/*
+
+
 void print_inputfile(char filename[MAX])
 {
+
+	// WITH ONLY USER INPUT TEXTFILE (1 cmdline argument) 
+
+
 	FILE *file;							// taken straight from the getline() manual page
 	char *line = NULL;						
 	size_t len = 0;
@@ -39,22 +43,17 @@ void print_inputfile(char filename[MAX])
 		perror("Couldn't read from file...\n");			//CHANGE THIS!!!
 		exit(1);
 	}
-	
-	
-	
-	/* WITH ONLY USER INPUT TEXTFILE (1 cmdline argument) */
 
-/*
 	while ((nread = getline(&line, &len, file)) != -1) 			// taken straight from the getline() manual page
 	{       
                fwrite(line, nread, 1, stdout);
 	}
 	
 	printf("\n");
-	
+	return;
 }
-*/
 
+*/
 
 
 
@@ -62,6 +61,32 @@ void print_inputfile(char filename[MAX])
 void write_into_outputfile(char inputfile[MAX], char outputfile[MAX])
 {
 
+	FILE *file;
+
+}
+*/
+
+
+
+/*
+void stdin_stdout(void)
+{
+
+
+	printf("Write anything you want (type 0 to stop)\n");
+	
+	for(;;)
+	{
+		if input == 0
+		{
+			exit(0);
+		}
+	
+	
+		ask for input;
+		print input;
+	
+	}
 
 }
 */
@@ -69,11 +94,14 @@ void write_into_outputfile(char inputfile[MAX], char outputfile[MAX])
 
 
 
-
-
 int main(int argc, char *argv[])
 {
 	printf("\n");
+	
+	char inputfile[MAX];
+	char outputfile[MAX];
+	
+	
 	
 	/*
 	FILE *file;							// taken straight from the getline() manual page
@@ -99,7 +127,7 @@ int main(int argc, char *argv[])
 	
 	if (file == NULL)
 	{
-		perror("Couldn't read from file...\n");			//CHANGE THIS!!!
+		fprintf(stderr, "ERROR: cannot open file '%s'\n", filename);
 		exit(1);
 	}
 	
@@ -127,7 +155,7 @@ int main(int argc, char *argv[])
 	
 		if ((pointerNew = (Node*)malloc(sizeof(Node))) == NULL)
 		{
-			perror("Memory allocation failed...\n");		//CHANGE THIS!!!
+			fprintf(stderr, "ERROR: malloc failed\n");
 			exit(1);
 		}
 		
@@ -164,3 +192,51 @@ int main(int argc, char *argv[])
 	printf("Kiitos ohjelman käytöstä :-D\n");
 	exit(0);
 }
+
+
+
+
+
+
+
+
+
+/*
+int main(int argc, char *argv[])
+{
+	int variable_a;
+	char variable_b[MAX];
+	
+	
+	if argc == 1
+	{
+		code;
+	}
+	
+	if argc == 2
+	{
+		print_inputfile(filename);
+	}
+	
+	if argc == 3
+	{
+		if argv[1] == argv[2]
+		{
+			fprintf(stderr, "ERROR: input and output file must differ\n");
+			exit(1);
+		}
+		
+		code;
+	}
+	
+	if argc > 3
+	{
+		fprintf(stderr, "usage: reverse <input> <output>\n");
+		exit(1);
+	}
+	
+
+}
+
+*/
+
