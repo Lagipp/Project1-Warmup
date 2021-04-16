@@ -14,21 +14,22 @@
 #define MAX 512
 
 
-/*
+
 struct Node
 {
 	char structChar[MAX];
-	struct Node *pointerNext;
+	struct Node *ptrNext;
 };
 typedef struct Node Node;
 
 
 
-void print_inputfile(char filename[MAX])
+void print_inputfile(char filename[])
 {
 
-	// WITH ONLY USER INPUT TEXTFILE (1 cmdline argument) 
+	//input = fopen(argv[1], "r");
 
+	// WITH ONLY USER INPUT TEXTFILE (1 cmdline argument) 
 
 	FILE *file;							// taken straight from the getline() manual page
 	char *line = NULL;						
@@ -40,7 +41,7 @@ void print_inputfile(char filename[MAX])
 	
 	if (file == NULL)
 	{
-		perror("Couldn't read from file...\n");			//CHANGE THIS!!!
+		fprintf(stderr, "ERROR: cannot open file '%s'\n\n", filename);
 		exit(1);
 	}
 
@@ -49,11 +50,13 @@ void print_inputfile(char filename[MAX])
                fwrite(line, nread, 1, stdout);
 	}
 	
-	printf("\n");
+	fprintf(stdout, "\n");
+	
+	fclose(file);
 	return;
 }
 
-*/
+
 
 
 
@@ -68,32 +71,9 @@ void write_into_outputfile(char inputfile[MAX], char outputfile[MAX])
 
 
 
+
+
 /*
-void stdin_stdout(void)
-{
-
-
-	printf("Write anything you want (type 0 to stop)\n");
-	
-	for(;;)
-	{
-		if input == 0
-		{
-			exit(0);
-		}
-	
-	
-		ask for input;
-		print input;
-	
-	}
-
-}
-*/
-
-
-
-
 int main(int argc, char *argv[])
 {
 	printf("\n");
@@ -101,27 +81,19 @@ int main(int argc, char *argv[])
 	char inputfile[MAX];
 	char outputfile[MAX];
 	
-	
-	
-	/*
-	FILE *file;							// taken straight from the getline() manual page
-	char *line = NULL;						
-	size_t len = 0;
-	ssize_t nread;
-	*/
-	
-	/*
-	
-	Node *pointerStart;
-	Node *slider;
-	Node *pointerNew;
-	// char line[MAX];
 
+	Node *ptrStart;
+	
+	
+	
+	
+	Node *slider;
+	Node *ptrNew;
+	// char line[MAX];
+	
 	
 	printf("== DEBUG: reading from a file ==\n");
 	printf("\n");
-	
-	
 	
 	file = fopen("textfile.txt", "r");
 	
@@ -153,47 +125,41 @@ int main(int argc, char *argv[])
 	while ((nread = getline(&line, &len, file)) != -1) 			// taken straight from the getline() manual page
 	{       
 	
-		if ((pointerNew = (Node*)malloc(sizeof(Node))) == NULL)
+		if ((ptrNew = (Node*)malloc(sizeof(Node))) == NULL)
 		{
 			fprintf(stderr, "ERROR: malloc failed\n");
 			exit(1);
 		}
 		
-               pointerNew->structChar = line;
-               pointerNew->pointerNext = NULL;
+               ptrNew->structChar = line;
+               ptrNew->ptrNext = NULL;
                
-               if (pointerStart == NULL)
+               if (ptrStart == NULL)
                {
-               	pointerStart = pointerNew;
+               	ptrStart = ptrNew;
                } else
                {
-               	slider = pointerStart;
-               	while (slider->pointerNext != NULL)
+               	slider = ptrStart;
+               	while (slider->ptrNext != NULL)
                	{
                		slider = slider->ponterNext;
                	}
-               	slider->pointerNext = pointerNew;
+               	slider->ptrNext = ptrNew;
                }
 	}
-	
-	*/
-	
 	
 	
 	printf("\n");
 	printf("== DEBUG: after reading every line from file ==\n");	
 	
-	
-	/*
 	fclose(file);
-	*/
-	
 	
 	printf("Kiitos ohjelman käytöstä :-D\n");
 	exit(0);
 }
 
 
+*/
 
 
 
@@ -201,42 +167,78 @@ int main(int argc, char *argv[])
 
 
 
-/*
 int main(int argc, char *argv[])
 {
-	int variable_a;
-	char variable_b[MAX];
+	//int variable_a;
+	//char input[MAX];
+	//char output[MAX];
+	
+	char filename[MAX];
+	
+	Node *ptrStart;
 	
 	
-	if argc == 1
+	if (argc == 1)
 	{
-		code;
+		//code;	// stdin -> stdout
+		return 0;
 	}
 	
-	if argc == 2
+	
+	if (argc == 2)
 	{
+		strcpy(filename, argv[1]);
+		
 		print_inputfile(filename);
 	}
 	
-	if argc == 3
+	
+	if (argc == 3)
 	{
-		if argv[1] == argv[2]
+	
+		FILE *input;
+		FILE *output;
+	
+		if (strcmp(argv[1], argv[2]) == 0)
 		{
-			fprintf(stderr, "ERROR: input and output file must differ\n");
+			fprintf(stderr, "ERROR: input and output file must differ\n\n");
 			exit(1);
 		}
 		
-		code;
+		
+		input = fopen(argv[1], "r");
+		output = fopen(argv[2], "w");
+		
+		if (input == NULL)
+		{
+			fprintf(stderr, "ERROR: cannot open file '%s'\n\n", argv[1]);
+			exit(1);
+		}
+		
+		if (output == NULL)
+		{
+			fprintf(stderr, "ERROR: cannot open file '%s'\n\n", argv[2]);
+			exit(1);
+		}
+		
+		
+		// call function
+		
+		
+		fclose(input);
+		fclose(output);
 	}
 	
-	if argc > 3
+	if (argc > 3)
 	{
-		fprintf(stderr, "usage: reverse <input> <output>\n");
+		fprintf(stderr, "usage: ./reverse <input> <output>\n\n");
 		exit(1);
 	}
 	
 
+	fprintf(stdout, "DEBUG: end of program...\n\n");
+	return 0;
 }
 
-*/
+
 
