@@ -70,7 +70,7 @@ void printReverse(Node* ptrStart, char filename[])
 	printReverse(ptrStart->ptrNext, filename);
 	fprintf(*filename, "%s\n", ptrStart->structChar);
 	
-	*//*
+	
 }
 */
 
