@@ -2,7 +2,7 @@
 /* KÄYTTÖJÄRJESTELMÄT JA SYSTEEMIOHJELMOINTI
  * Project 1:			Warmup to C and Unix programming
  * Nimi ja opiskelijanro:	Miika Pynttäri, 0563090
- * Päivämäärä:			16.4.2021
+ * Päivämäärä:			23.4.2021
  * Yhteistyö ja lähteet:	<>
 */
 /*****************************************************************/
@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX 512
+#define MAX 128
 
 
 
@@ -26,8 +26,14 @@ typedef struct Node Node;
 
 void print_inputfile(char filename[])
 {
-
 	/* WITH ONLY USER INPUT TEXTFILE (1 cmdline argument) */
+	
+	/* this function opens and prints out the contents of the supplied 
+	 * file line by line */
+	 
+	/* source for function:  https://www.youtube.com/watch?v=sYcOK51hl-A */
+	
+	
 
 	FILE *file;							// taken straight from the getline() manual page
 	char *line = NULL;						
@@ -54,53 +60,29 @@ void print_inputfile(char filename[])
 }
 
 
-/*
-void printReverse(Node* ptrStart, char filename[])
+
+Node* reverseList(Node* ptrStart)
 {
-
-	/* USING RECURSION TO GO THROUGH THE LIST IN REVERSE ORDER */
-	/* source: https://stackoverflow.com/questions/27047351/print-singly-linked-list-in-reverse-order */
-
-/*
-	if (ptrStart == NULL)
-	{
-		return;
-	}
-	
-	printReverse(ptrStart->ptrNext, filename);
-	fprintf(*filename, "%s\n", ptrStart->structChar);
-	
-	
-}
-*/
+	/* reverses the linked list, takes the 'head' of 
+	 * the linked list as an argument, and after reversing 
+	 * returns the 'head' */
 
 
-/*
-void reverseList(Node* ptrStart)
-{
-	if (ptrStart == NULL || ptrStart->ptrNext == NULL)
-	{
-		return;
-	}
+	Node *prev = NULL;
+	Node *curr = ptrStart;			//starting with the current node being the head of the list
+	Node *ptrNext;
 	
-	Node* prev = NULL;
-	Node* curr = ptrStart;
-	Node* ptrNext;
-	
-	while (curr)
+	while (curr != NULL)			//looping through all the nodes until there's none left
 	{
 		ptrNext = curr->ptrNext;
 		curr->ptrNext = prev;
 		prev = curr;
 		curr = ptrNext;
 	}
-	
-	ptrStart = prev;
+	ptrStart = prev;		//returning the non-reversed list's last node as the first node
+	return ptrStart;
 }
-*/
 
-/*
-*/
 
 int main(int argc, char *argv[])
 {	
@@ -112,6 +94,7 @@ int main(int argc, char *argv[])
 	if (argc == 1)
 	{
 		//code;	// stdin -> stdout
+		fprintf(stdout, "== WIP, try something else\n");
 		return 0;
 	}
 	
@@ -119,7 +102,6 @@ int main(int argc, char *argv[])
 	if (argc == 2)
 	{
 		strcpy(filename, argv[1]);
-		
 		print_inputfile(filename);
 	}
 	
@@ -160,11 +142,11 @@ int main(int argc, char *argv[])
 		
 		/* CREATING LINKED LIST FROM 'input' FILE */
 		
-		while(fscanf(input, "%[^\n]%*c", line) != EOF)
+		while(fscanf(input, "%[^\n]%*c", line) != EOF)		//looping until all lines are checked
 		{
 			if ((ptrNew = (Node*)malloc(sizeof(Node))) == NULL)
 			{
-				fprintf(stdout, "malloc failed... \n\n");
+				fprintf(stdout, "ERROR: malloc failed!\n\n");
 				exit(1);
 			}
 			
@@ -173,8 +155,8 @@ int main(int argc, char *argv[])
 			
 			if (ptrStart == NULL)
 			{
-				ptrStart = ptrNew;
-			} else
+				ptrStart = ptrNew;			//the actual creation of the linked list
+			} else	
 			{
 				slider = ptrStart;
 				while(slider->ptrNext != NULL)
@@ -188,23 +170,15 @@ int main(int argc, char *argv[])
 		
 		/* WRITING LINKED LIST IN REVERSE INTO 'output' FILE */
 		
-		
-		
-		/*
-		reverseList(ptrStart);
-		
-		Node* curr = ptrStart;
-		while(curr)
+		ptrStart = reverseList(ptrStart);		//reversing the list
+
+		Node* curr = ptrStart;				//going through the now-reversed list
+		while(curr)					//one node at a time
 		{
 			fprintf(output, "%s\n", curr->structChar);
 			curr = curr->ptrNext;
 		}
 		fprintf(stdout, "\n");
-		*/
-		
-		
-		
-		
 		
 		fclose(input);
 		fclose(output);
@@ -212,7 +186,7 @@ int main(int argc, char *argv[])
 	
 	if (argc > 3)
 	{
-		fprintf(stderr, "usage: ./reverse <input> <output>\n\n");
+		fprintf(stderr, "INCORRECT USAGE, try: ./reverse <input> <output>\n\n");
 		exit(1);
 	}
 	
