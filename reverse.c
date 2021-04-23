@@ -25,17 +25,14 @@ typedef struct Node Node;
 
 
 void print_inputfile(char filename[])
-{
-	/* WITH ONLY USER INPUT TEXTFILE (1 cmdline argument) */
-	
+{	
 	/* this function opens and prints out the contents of the supplied 
 	 * file line by line */
 	 
 	/* source for function:  https://www.youtube.com/watch?v=sYcOK51hl-A */
 	
 	
-
-	FILE *file;							// taken straight from the getline() manual page
+	FILE *file;					// taken straight from the getline() manual page
 	char *line = NULL;						
 	size_t len = 0;
 	ssize_t nread;
@@ -49,7 +46,7 @@ void print_inputfile(char filename[])
 		exit(1);
 	}
 
-	while ((nread = getline(&line, &len, file)) != -1) 			// taken straight from the getline() manual page
+	while ((nread = getline(&line, &len, file)) != -1) 		// taken straight from the getline() manual page
 	{       
                fwrite(line, nread, 1, stdout);
 	}
@@ -67,19 +64,21 @@ Node* reverseList(Node* ptrStart)
 	 * the linked list as an argument, and after reversing 
 	 * returns the 'head' */
 
+	/* source for function:  https://www.youtube.com/watch?v=sYcOK51hl-A */
+
 
 	Node *prev = NULL;
-	Node *curr = ptrStart;			//starting with the current node being the head of the list
+	Node *curr = ptrStart;		/* starting with the current node being the head of the list */
 	Node *ptrNext;
 	
-	while (curr != NULL)			//looping through all the nodes until there's none left
+	while (curr != NULL)		/* looping through all the nodes until there's none left */
 	{
 		ptrNext = curr->ptrNext;
 		curr->ptrNext = prev;
 		prev = curr;
 		curr = ptrNext;
 	}
-	ptrStart = prev;		//returning the non-reversed list's last node as the first node
+	ptrStart = prev;		/* returning the non-reversed list's last node as the first node */
 	return ptrStart;
 }
 
@@ -93,6 +92,9 @@ int main(int argc, char *argv[])
 	if (argc == 1)
 	{
 	
+	/* TAKING USER INPUT FROM STDIN AND REVERSING INTO STDOUT */
+	
+	
 		char *line = NULL;
 		size_t len;
 		char array[MAX][MAX];
@@ -104,54 +106,61 @@ int main(int argc, char *argv[])
 		
 		while(getline(&line, &len, stdin) != -1)
 		{
-		
-			if (strcmp(line, "\n") == 0)
+			if (strcmp(line, "\n") == 0)			/* exiting if the user doesn't give a word */
 			{
-				fprintf(stdout, "Input needs to be words, not empty lines!\n\n");
+				fprintf(stdout, "ERROR: Input needs to be words, not empty lines!\n\n");
 				exit(1);
 			}
 			
-			if (strcmp(line, "STOP\n") == 0)
+			if (strcmp(line, "STOP\n") == 0)		/* breaking the loop if the user types 'STOP' */
 			{
 				break;
 			}
 			
-			strcpy(array[y], line);
-			count++;
+			strcpy(array[y], line);			/* adding the user's typed lines into an array */
+			count++;					/* incrementing count to keep up with how many words are typed */
 			y++;
 		}
 		free(line);
 		
 		fprintf(stdout, "\n");
 		
-		/* printing the array in reverse order */
+		
+		/* PRINTING THE ARRAY IN REVERSE ORDER */
 		/* source used for function: https://technotip.com/8770/c-program-to-print-elements-of-array-in-reverse-order/ */
 		
-		fprintf(stdout, "== DEBUG: before printing array: \n\n");
+		
+		fprintf(stdout, "--Your input in reverse order: \n\n");
 		
 		for (d = count-1; d >= 0; d--)
 		{
 			fprintf(stdout, "%s", array[d]);
 		}
 		fprintf(stdout, "\n");
-	
-	
-		//code;	// stdin -> stdout
-		fprintf(stdout, "== DEBUG: after printing array\n");
+
 		return 0;
 	}
 	
 	
+	
 	if (argc == 2)
 	{
+	
+	/* PRINTING OUT THE CONTENTS OF THE FILE */
+	
+	
 		strcpy(filename, argv[1]);
 		print_inputfile(filename);
 	}
 	
 	
+	
 	if (argc == 3)
 	{
-		
+	
+	/* REVERSING THE CONTETNTS OF THE INPUT FILE INTO OUTPUT FILE */
+	
+	
 		FILE *input;
 		FILE *output;
 	
@@ -185,7 +194,8 @@ int main(int argc, char *argv[])
 		
 		/* CREATING LINKED LIST FROM 'input' FILE */
 		
-		while(fscanf(input, "%[^\n]%*c", line) != EOF)		//looping until all lines are checked
+		
+		while(fscanf(input, "%[^\n]%*c", line) != EOF)	/* looping until all lines are checked */
 		{
 			if ((ptrNew = (Node*)malloc(sizeof(Node))) == NULL)
 			{
@@ -198,7 +208,7 @@ int main(int argc, char *argv[])
 			
 			if (ptrStart == NULL)
 			{
-				ptrStart = ptrNew;			//the actual creation of the linked list
+				ptrStart = ptrNew;		/* the actual creation of the linked list */
 			} else	
 			{
 				slider = ptrStart;
@@ -213,10 +223,11 @@ int main(int argc, char *argv[])
 		
 		/* WRITING LINKED LIST IN REVERSE INTO 'output' FILE */
 		
-		ptrStart = reverseList(ptrStart);		//reversing the list
+		
+		ptrStart = reverseList(ptrStart);		/* reversing the list */
 
-		Node* curr = ptrStart;				//going through the now-reversed list
-		while(curr)					//one node at a time
+		Node* curr = ptrStart;				/* going through the now-reversed list */
+		while(curr)					/* one node at a time */
 		{
 			fprintf(output, "%s\n", curr->structChar);
 			curr = curr->ptrNext;
@@ -226,6 +237,7 @@ int main(int argc, char *argv[])
 		fclose(input);
 		fclose(output);
 	}
+	
 	
 	if (argc > 3)
 	{
