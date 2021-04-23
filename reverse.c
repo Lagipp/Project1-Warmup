@@ -87,14 +87,57 @@ Node* reverseList(Node* ptrStart)
 int main(int argc, char *argv[])
 {	
 	char filename[MAX];
-	
 	Node *ptrStart = NULL;
 	
 	
 	if (argc == 1)
 	{
+	
+		char *line = NULL;
+		size_t len;
+		char array[MAX][MAX];
+		int y;
+		int d;
+		int count = 0;
+		
+		fprintf(stdout, "Give some inputs, type 'STOP' to stop\n\n");
+		
+		while(getline(&line, &len, stdin) != -1)
+		{
+		
+			if (strcmp(line, "\n") == 0)
+			{
+				fprintf(stdout, "Input needs to be words, not empty lines!\n\n");
+				exit(1);
+			}
+			
+			if (strcmp(line, "STOP\n") == 0)
+			{
+				break;
+			}
+			
+			strcpy(array[y], line);
+			count++;
+			y++;
+		}
+		free(line);
+		
+		fprintf(stdout, "\n");
+		
+		/* printing the array in reverse order */
+		/* source used for function: https://technotip.com/8770/c-program-to-print-elements-of-array-in-reverse-order/ */
+		
+		fprintf(stdout, "== DEBUG: before printing array: \n\n");
+		
+		for (d = count-1; d >= 0; d--)
+		{
+			fprintf(stdout, "%s", array[d]);
+		}
+		fprintf(stdout, "\n");
+	
+	
 		//code;	// stdin -> stdout
-		fprintf(stdout, "== WIP, try something else\n");
+		fprintf(stdout, "== DEBUG: after printing array\n");
 		return 0;
 	}
 	
