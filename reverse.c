@@ -2,9 +2,13 @@
 /* KÄYTTÖJÄRJESTELMÄT JA SYSTEEMIOHJELMOINTI
  * Project 1:			Warmup to C and Unix programming
  * Nimi ja opiskelijanro:	Miika Pynttäri, 0563090
- * Päivämäärä:			23.4.2021
- * Yhteistyö ja lähteet:	<>
-*/
+ * Päivämäärä:			24.4.2021
+ * Yhteistyö ja lähteet:	
+ *
+ * - https://technotip.com/8770/c-program-to-print-elements-of-array-in-reverse-order/
+ * - https://www.youtube.com/watch?v=sYcOK51hl-A
+ * 
+ */
 /*****************************************************************/
 
 
@@ -27,15 +31,16 @@ typedef struct Node Node;
 void print_inputfile(char filename[])
 {	
 	/* this function opens and prints out the contents of the supplied 
-	 * file line by line */
+	 * file line by line in reverse */
 	 
-	/* source for function:  https://www.youtube.com/watch?v=sYcOK51hl-A */
 	
-	
-	FILE *file;					// taken straight from the getline() manual page
+	FILE *file;				// taken straight from the getline() manual page
 	char *line = NULL;						
 	size_t len = 0;
 	ssize_t nread;
+	char array[MAX][MAX];
+	int h = 0;
+	int count = 0;
 
 
 	file = fopen(filename, "r");
@@ -48,10 +53,26 @@ void print_inputfile(char filename[])
 
 	while ((nread = getline(&line, &len, file)) != -1) 		// taken straight from the getline() manual page
 	{       
-               fwrite(line, nread, 1, stdout);
+               //fwrite(line, nread, 1, stdout);
+               
+               strcpy(array[h], line);		/* adding every read line into the array */
+               h++;
+               count++;
+	}
+	free(line);
+	
+	fprintf(stdout, "\n");
+	
+	fprintf(stdout, "-- Contents of the file '%s' in reverse order: \n\n", filename);
+	
+	for (h = count-1; h >= 0; h--)
+	{
+		fprintf(stdout, "%s", array[h]);	/* printing the array in reverse order */
+							/* source: https://technotip.com/8770/c-program-to-print-elements-of-array-in-reverse-order/ */
 	}
 	
 	fprintf(stdout, "\n");
+	
 	fclose(file);
 	return;
 }
@@ -78,9 +99,10 @@ Node* reverseList(Node* ptrStart)
 		prev = curr;
 		curr = ptrNext;
 	}
-	ptrStart = prev;		/* returning the non-reversed list's last node as the first node */
+	ptrStart = prev;		/* returning the original list's last node as the new first node */
 	return ptrStart;
 }
+
 
 
 int main(int argc, char *argv[])
@@ -102,7 +124,7 @@ int main(int argc, char *argv[])
 		int d;
 		int count = 0;
 		
-		fprintf(stdout, "Give some inputs, type 'STOP' to stop\n\n");
+		fprintf(stdout, "Give some inputs, type 'STOP' to stop: \n\n");
 		
 		while(getline(&line, &len, stdin) != -1)
 		{
@@ -130,7 +152,7 @@ int main(int argc, char *argv[])
 		/* source used for function: https://technotip.com/8770/c-program-to-print-elements-of-array-in-reverse-order/ */
 		
 		
-		fprintf(stdout, "--Your input in reverse order: \n\n");
+		fprintf(stdout, "-- Your inputs in reverse order: \n\n");
 		
 		for (d = count-1; d >= 0; d--)
 		{
@@ -146,7 +168,7 @@ int main(int argc, char *argv[])
 	if (argc == 2)
 	{
 	
-	/* PRINTING OUT THE CONTENTS OF THE FILE */
+	/* PRINTING OUT THE CONTENTS OF THE FILE IN REVERSE*/
 	
 	
 		strcpy(filename, argv[1]);
@@ -158,7 +180,7 @@ int main(int argc, char *argv[])
 	if (argc == 3)
 	{
 	
-	/* REVERSING THE CONTETNTS OF THE INPUT FILE INTO OUTPUT FILE */
+	/* REVERSING THE CONTENTS OF THE INPUT FILE INTO OUTPUT FILE */
 	
 	
 		FILE *input;
@@ -169,7 +191,7 @@ int main(int argc, char *argv[])
 		char line[MAX];
 	
 	
-		if (strcmp(argv[1], argv[2]) == 0)
+		if (strcmp(argv[1], argv[2]) == 0)		/* input and output files can't be same */
 		{
 			fprintf(stderr, "ERROR: input and output file must differ\n\n");
 			exit(1);
@@ -179,7 +201,7 @@ int main(int argc, char *argv[])
 		input = fopen(argv[1], "r");
 		output = fopen(argv[2], "w");
 		
-		if (input == NULL)
+		if (input == NULL)			/* error checking for both files */
 		{
 			fprintf(stderr, "ERROR: cannot open file '%s'\n\n", argv[1]);
 			exit(1);
@@ -234,6 +256,8 @@ int main(int argc, char *argv[])
 		}
 		fprintf(stdout, "\n");
 		
+		fprintf(stdout, "-- The reversed contents of file '%s' can be found in file '%s'\n\n", argv[1], argv[2]);
+		
 		fclose(input);
 		fclose(output);
 	}
@@ -245,8 +269,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-
-	fprintf(stdout, "DEBUG: end of program...\n\n");
+	
 	return 0;
 }
 
